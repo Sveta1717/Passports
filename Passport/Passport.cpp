@@ -45,17 +45,15 @@ public:
 class Visa 
 {
 protected:
-
     string country;
     string type_of_entry;
     string date;
     string day;
 
 public:
-
     void SetСountry(string country)
     {
-        AddCountry(country);
+        this->country = country;
     }
 
     string GetСountry()
@@ -63,73 +61,35 @@ public:
         return country;
     }  
 
-    void AddCountry(string country_)
-    {
-        for (int i = 0; country_[i] != '\0'; i++)
-        {
-            country.push_back(country_[i]);
-        }
-    }
-
     void SetDate(string date)
     {
-        AddDate(date);
+        this->date = date;
     }
 
     string GetDate()
     {
         return date;
-    }
-
-    void AddDate(string date_)
-    {
-        for (int i = 0; date_[i] != '\0'; i++)
-        {
-            date.push_back(date_[i]);
-        }
-    }
+    }    
 
     void SetTypeOfEntry(string type_of_entry)
     {
-        AddTypeOfEntry(type_of_entry);
+        this->type_of_entry = type_of_entry;
     }
 
     string GetTypeOfEntry()
     {
         return type_of_entry;
     }
-
-    void AddTypeOfEntry(string type_of_entry_)
+    
+    void SetDay(string day)
     {
-        for (int i = 0; type_of_entry_[i] != '\0'; i++)
-        {
-            type_of_entry.push_back(type_of_entry_[i]);
-        }
-    }
-    void SetDay(string day_)
-    {
-        AddDay(day_);
+        this->day = day;
     }
 
     string GetDay()
     {
         return day;
     }
-
-    void AddDay(string day_)
-    {
-        for (int i = 0; day_[i] != '\0'; i++)
-        {
-            day.push_back(day_[i]);
-        }
-    }
-   /* void AddAll()
-    {
-        AddCountry(country);
-        AddDay(day);
-        AddTypeOfEntry(type_of_entry);
-        AddDate(date);
-    }*/
 
     void Clear()
     {       
@@ -148,7 +108,7 @@ public:
     }
 };
 
-class ForeignPassport : virtual public Passport, virtual public Visa
+class ForeignPassport : virtual public Passport
 {
 protected:
 
@@ -158,16 +118,13 @@ protected:
     string nationality = "UKRAINE";
     string date_of_issue = "11.11.2021";
     string date_of_expiry = "11.11.2031";
-    vector <Visa*> visas;   
+    vector <Visa> visas;   
 
 public:
 
-    void AddVisas(Visa* visas)
-    {        
-        visas->GetСountry();
-        visas->GetDate();
-        visas->GetDay();
-        visas->GetTypeOfEntry();           
+    void AddVisas(Visa& visa)
+    {            
+        visas.push_back(visa);                 
     }   
     
     void Print()
@@ -177,7 +134,10 @@ public:
             << "\nDate of issue: " << date_of_issue
             << "\nDate of expiry: " << date_of_expiry
             << "\nNationality: " << nationality;  
-        //PrintVisa();
+       for (int i = 0; i < visas.size(); i++)
+        {
+            visas[i].PrintVisa();
+        }
     }     
 };
 
@@ -187,19 +147,11 @@ int main()
     Visa v;
     ForeignPassport f;
 
+    v.SetСountry("Madagaskar ");
+    v.SetTypeOfEntry("sea liner ");
+    v.SetDate("01/01/2021 ");
+    v.SetDay("120 ");   
+    
+    f.AddVisas(v);    
     f.Print();
-    v.AddCountry("Madagaskar ");
-    v.AddTypeOfEntry("sea liner ");
-    v.AddDate("01/01/2021 ");
-    v.AddDay("120 ");
-    //f.AddVisas(&v);
-    v.PrintVisa();
-    v.Clear();
-    v.AddCountry("Mosambic ");
-    v.AddTypeOfEntry("liner ");
-    v.AddDate("01/01/2022 ");
-    v.AddDay("90 "); 
-    v.PrintVisa();
-    //f.AddVisas(&v);    
-    //v.PrintVisa();
 }
